@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ja">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>zshと.zshrcで世界が変わった</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="budougumi0617">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/myStyle.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write('<link rel="stylesheet" href="css/print/' + (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper') + '.css" type="text/css" media="print">');
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h2>zshと.zshrcで</h2>
+                    <h2>世界が変わった</h2> 
+                    2014/09/16
+
+                    <br><br>
+                    リコーITソリューションズ株式会社<br>
+                    清水 陽一郎
+                </section>
+                <section>
+                    <h1>Agenda</h1>
+                    <ol>
+                        <li>「zsh」って何？「.zshrc」とは？</li>
+                        <li>ひたすらzshの機能自慢</li>
+                        <li>bashでも使える便利コマンド</li>
+                        <li>複数環境で設定するのがめんどくさいときは</li>
+                    </ol>
+                </section>
+                <section>
+                    <section>
+                        <h2>「<i>zsh</i>」って何？「<i>.zshrc</i>」とは？</h2>
+                        コマンドシェルの一つ。読み方は「ゼットシェル」<br>
+                        <i>bash</i>、<i>csh</i>などあるが、かなり強力なシェル。<br>
+                        Linuxの標準シェルは<i>bash</i><br>
+                        機能が豊富すぎてマニュアルが全部読めないくらい長い<br>
+                        「<i>.zshrc</i>」は<i>zsh</i>版の<i>.bashrc</i>。
+                    </section>
+                    <section>
+                        <h2>OpenSuSE12.3にも標準で搭載</h2>
+                        <i>chsh</i>コマンドで<i>bash</i>から<i>zsh</i>変更可能
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2><i>zsh</i>の便利なところ</h2>
+                        以降は<i>.zshrc</i>と<i>oh-my-zsh</i>で実現
+
+                    </section>
+                    <section>
+                        <h3>コマンドオプションは覚えなくても平気</h3>
+                        コマンドオプションの意味、候補を羅列してくれる<br>
+                        TABキー押下でサブコマンドや「-」、「--」に続くオプション候補を表示<br>
+                        <i>.zshrc</i>に独自に作成したエイリアスもちゃんと候補に挙がる
+                        <img src="./image/command_reference.gif" alt="大文字小文字補完">
+                    </section>
+                    <section>
+                        <h3>ファイル名の大文字小文字は覚えなくて平気</h3>
+                        ディレクトリ、ファイル名は綴りだけ覚えておけばOK<br>
+                        大文字小文字はTABキーで補完変換される
+                        <img src="./image/upper_lower_autocomplete.gif" alt="大文字小文字補完">
+                    </section>
+                    <section>
+                        <h3>ディレクトリ名も覚えなくて平気</h3>
+                        ディレクトリ名は頭文字だけ覚えておけばOK<br>
+                        TABキーを押すことで補完される
+                        <img src="./image/move.gif" alt="ディレクトリ名補完">
+                    </section>
+                    <section>
+                        <h3>編集したファイルを覚えておかなくても平気</h3>
+                        コミット時、未コミットのファイルを自動的に補完<br>
+                        TABキー押下で自動的に未コミットのファイルを入力してくれる
+                        <img src="./image/git_autocomplete.gif" alt="ブランチ情報表示">
+                    </section>
+                    <section>
+                        <h3>リモートブランチを覚えておかなくても平気</h3>
+                        構成管理中のカレントディレクトリではブランチ名を表示<br>
+                        <br>
+                        例：originブランチからgh-pagesに変更した場合
+                        <img src="./image/branch_information.gif" alt="ブランチ情報表示">
+                    </section>
+                    <section>
+                        <h3>makeのターゲットを覚えなくて平気</h3>
+                        Makefile内からターゲットを自動検索、TABキー押下時の候補に<br>
+                        <br>
+                        例：「<i>all</i>」、「<i>ut_BasicFunction</i>」、「<i>clean</i>」ターゲットを設定したMakefile
+                        <img src="./image/make_autocomplete.gif" alt="makeターゲット補完">
+                    </section>
+                    <section>
+                        <h3>「<i>echo $?</i>」しなくても平気</h3>
+                        前回実行したコマンドが成功したか表示できる<br>
+                        <i>Make -j4</i>した際など、コマンドが成功したかわかりづらい時
+                        <br>
+                        例：「<i>cd</i>」に失敗して「$」が赤くなる。
+                        <img src="./image/result_check.gif" alt="コマンドリザルト自動表示">
+                    </section>
+                    <section>
+                        <h3>ローカルホスト名も覚えなくて平気</h3>
+                        「<i>/etc/hosts</i>」のローカルホストを補完してくれる<br>
+                        <br>
+                        例：「<i>ssh</i>」、「<i>ping</i>」で補完
+                        <img src="./image/ssh_complete.gif" alt="ホスト名補完">
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>bashでも使える<br>便利なコマンド/ショートカット</h2>
+                        zsh自慢だけじゃしょうがないので、bashでも使えるコマンド、ショートカット
+
+                    </section>
+                    <section>
+                        <h3>「Ctrl+R」でhistoryのインクリメンタルリサーチ</h3>
+                        コマンド履歴を検索できる。途中の文字列でも平気<br>
+                        検索後にコマンドを編集することも可能<br>
+                        <small>環境変数<i>$SAVEHIST</i>、<i>$HISTSIZE</i>は多め(10000など)にしておくこと</small>
+                        <img src="./image/ctrl_r.gif" alt="履歴検索">
+                    </section>
+                    <section>
+                        <h3><i>egrep</i>で複数ワード検索</h3>
+                        「<i>egrep -inR --exclude-dir=".svn" --include="*.c**" "foo||bar" ./</i>」<br>
+                        オプションが長いので、「Ctrl+R」前のコマンドを編集すれば便利<br><br>
+                        <center>
+                            <table class="table-center">
+                                <tr>
+                                    <td><i>-i</i></td>
+                                    <td>大文字小文字無視</td>
+                                </tr>
+                                <tr>
+                                    <td><i>-n</i></td>
+                                    <td>該当行の行番号表示</td>
+                                </tr>
+                                <tr>
+                                    <td><i>-R</i></td>
+                                    <td>サブディレクトリも検索</td>
+                                </tr>
+                                <tr>
+                                    <td><i>--exclude-dir=</i></td>
+                                    <td>検索除外ディレクトリ</td>
+                                </tr>
+                                <tr>
+                                    <td><i>--include=</i></td>
+                                    <td>対象とするファイルの絞込</td>
+                                </tr>
+                                <tr>
+                                    <td><i>"foo||bar"</i></td>
+                                    <td>検索条件はOR、ANDなどで設定可能</td>
+                                </tr>
+                                <tr>
+                                    <td><i>./</i></td>
+                                    <td>検索開始ディレクトリ</td>
+                                </tr>
+                            </table>
+                        </center>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>複数環境で毎回環境設定するのが<br>めんどくさいときは</h2><br>
+                        個人PC、開発環境、いろんな場所で設定変えるのめんどくさい。。。<br>
+                        デフォルトのままのほうが新しい環境でもすぐ動かせるし。。。<br>
+                        
+                    </section>
+                    <section>
+                        <h2><i>.zshrc</i>をクラウド共有すればよい</h2>
+                        <i>.vimrc</i>や、<i>.gitconfig</i>などもこれで共有できます。<br>
+                        <a href="http://qiita.com/budougumi0617/items/07cd145af12c65dbe77c">homeshickとgit submoduleコマンドで<br>プラグインも含めたドットファイルを全て管理する</a><br><br>
+                        <b>社外秘情報だけは注意して共有しましょう</b><br><br>
+                        <a href="http://qiita.com/budougumi0617/items/bc04364464488802f54e">dotfilsをGitHub管理したいけど<br>.gitconfigには社内proxy情報が…ってときは</a>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>快適なコマンドライン生活を</h2>
+                        <img src="./image/display.jpg" alt="めんどくさい！">
+                    </section>
+                </section>
+                <section>
+                    <section><h2>Thank U for Reading</h2>
+                        <h4>Copyright Ricoh IT Solutions, LTD. </h4>
+                    </section>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    {src: 'lib/js/classList.js', condition: function() {
+                            return !document.body.classList;
+                        }},
+                    {src: 'plugin/markdown/marked.js', condition: function() {
+                            return !!document.querySelector('[data-markdown]');
+                        }},
+                    {src: 'plugin/markdown/markdown.js', condition: function() {
+                            return !!document.querySelector('[data-markdown]');
+                        }},
+                    {src: 'plugin/highlight/highlight.js', async: true, callback: function() {
+                            hljs.initHighlightingOnLoad();
+                        }},
+                    {src: 'plugin/zoom-js/zoom.js', async: true, condition: function() {
+                            return !!document.body.classList;
+                        }},
+                    {src: 'plugin/notes/notes.js', async: true, condition: function() {
+                            return !!document.body.classList;
+                        }}
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
